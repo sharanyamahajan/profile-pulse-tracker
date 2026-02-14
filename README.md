@@ -1,73 +1,103 @@
-# Welcome to your Lovable project
+PrivacyPulse 🛡️
 
-## Project info
+PrivacyPulse is a secure, privacy-first React application designed to provide ethical profile analytics. It allows users to track who has viewed their profile internally within the platform by linking their Instagram handle.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Unlike deceptive "profile tracker" apps, PrivacyPulse is transparent about Meta's API restrictions and focuses on reciprocal, consented tracking between platform members.
 
-## How can I edit this code?
+🌟 Key Features
 
-There are several ways of editing your application.
+Instagram Handle Linking: Users can initialize their profile by simply entering their Instagram username. No passwords or private data are ever requested.
 
-**Use Lovable**
+Internal Search & Discovery: A secure directory to find other platform users by their handles.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Reciprocal View Tracking: If you view someone's profile, they can see you visited. In return, you can see who visited your profile.
 
-Changes made via Lovable will be committed automatically to this repo.
+Security Diagnostics: A mock security scanner that educates users on the "Meta Privacy Lock" and why external Instagram tracking is a security risk.
 
-**Use your preferred IDE**
+GDPR Compliance: Built-in tools for data transparency and a "Danger Zone" to wipe all user activity and logs permanently.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+🛠️ Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Frontend: React.js, Tailwind CSS
 
-Follow these steps:
+Icons: Lucide-React
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Backend: Firebase (Authentication & Firestore)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Deployment: Optimized for single-page application environments
 
-# Step 3: Install the necessary dependencies.
-npm i
+🚀 Getting Started
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+1. Prerequisites
 
-**Edit a file directly in GitHub**
+Node.js (v14+)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+npm or yarn
 
-**Use GitHub Codespaces**
+A Firebase Project
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2. Installation
 
-## What technologies are used for this project?
+# Clone the repository
+git clone [https://github.com/sharanyamahajan/profile-pulse-tracker.git](https://github.com/sharanyamahajan/profile-pulse-tracker.git)
+cd privacypulse
 
-This project is built with:
+# Install dependencies
+npm install firebase tailwindcss lucide-react
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
-## How can I deploy this project?
+3. Firebase Configuration
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Ensure your Firebase project has Anonymous Authentication and Firestore enabled. Create a src/firebase.js file with your credentials:
 
-## Can I connect a custom domain to my Lovable project?
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 
-Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+4. Firestore Security Rules
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+To maintain the required path structure, use the following rules:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /artifacts/{appId}/public/data/{collectionName}/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+
+📂 Project Structure
+
+App.js: Main entry point handling authentication and tab-based navigation.
+
+ProfileLink.js: Component for linking and managing the Instagram handle.
+
+SearchTool.js: User discovery and view-recording logic.
+
+ViewersList.js: Real-time list of users who viewed your profile.
+
+Diagnostics.js: Educational tool for privacy status and security scanning.
+
+SecurityHub.js: Privacy documentation and data management.
+
+⚖️ Privacy & Ethics
+
+PrivacyPulse operates on a Closed Loop philosophy.
+
+No Third-Party Access: We do not connect to external Instagram/Meta servers to fetch private data.
+
+Consented Tracking: Users are informed that their visits are logged only when they opt-in to the platform's ecosystem.
+
+Data Minimization: We only store what is necessary for the reciprocal view feature to function.
+
+📝 License
+
+Distributed under the MIT License. See LICENSE for more information.
